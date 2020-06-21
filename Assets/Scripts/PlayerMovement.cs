@@ -8,8 +8,6 @@ public class PlayerMovement : MonoBehaviour
     public CharacterController2D controller;
     public Animator animator;
 
-    public Joystick joystick;
-
 
     public float runSpeed = 40f;
 
@@ -27,21 +25,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        // horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-        //horizontalMove = joystick.Horizontal * runSpeed;
-        if(joystick.Horizontal >= .2f)
-        {
-            horizontalMove = runSpeed;
-        } else if(joystick.Horizontal <= -.2f)
-        {
-            horizontalMove = -runSpeed;
-        } else 
-        {
-            horizontalMove = 0f;
-        }
-
-        float verticalMove = joystick.Vertical;
-
+        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
@@ -49,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetButtonDown("Reset"))
         {
-
             Application.LoadLevel(PlayerPrefs.GetInt("lastLevel"));
 
         }
@@ -62,20 +45,18 @@ public class PlayerMovement : MonoBehaviour
         {
             crouch = false;
         }
-       // if (Input.GetButtonDown("GravityUp"))
-        if (verticalMove >= 0.3f )
+        if (Input.GetButtonDown("GravityUp"))
         {
             animator.SetBool("Grav", true);
             rb2d.gravityScale = -3;
-          //  SoundManagerScript.PlaySound("sus");
+            SoundManagerScript.PlaySound("sus");
         }
-        if (verticalMove <= -0.3f) // if (Input.GetButtonDown("GravityDown"))
+        if (Input.GetButtonDown("GravityDown"))
         {
             rb2d.gravityScale = 3;
             animator.SetBool("Grav", false);
-           // SoundManagerScript.PlaySound("jos");
+            SoundManagerScript.PlaySound("jos");
         }
-
 
     }
     void FixedUpdate()
